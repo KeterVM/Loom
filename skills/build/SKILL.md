@@ -1,0 +1,57 @@
+---
+name: build
+description: "loom build stage skill. Triggered when the user invokes /build. Finds the next pending feature whose dependencies are satisfied, executes it task by task, fills in the Done block, and marks it done. One feature per invocation."
+---
+
+# Build Stage
+
+## Pre-checks
+
+1. Check if `.loom/state.md` exists in the project root
+   - Not found → stop and tell the user to run `/ideation` first
+   - Found → read current progress and resume from last checkpoint
+
+2. Check that `.loom/features/` directory exists and contains at least one `.md` file
+   - Not found → stop and tell the user to run `/plan` first
+
+3. Check that `.loom/state.md` shows `plan ✅`
+   - Not shown → stop and tell the user to complete and confirm `/plan` first
+
+4. Check if `.skills/stage/build.md` exists in the project
+   - Found → use project-level file to override this orchestration logic
+
+## Execution
+
+Load and execute [exec-feature](references/exec-feature.md).
+
+## Checkpoint Rules
+
+Pause and write to the "pending decisions" field in `.loom/state.md` when:
+
+- A task's acceptance criterion cannot be met — confirm how to proceed
+- Implementation reveals a task definition is incorrect or incomplete
+- A dependency on an external service or environment is missing
+
+```
+Blocked on Task "[name]" in [feature]:
+
+Problem: [what's wrong]
+Options:
+1. Skip this task and continue
+2. Redefine the task: [suggested new definition]
+3. Pause — I'll resolve this manually
+```
+
+## Completion
+
+When the current feature is done:
+
+1. Use [infra](references/infra.md) to update the feature file: status = done, fill Done block
+2. Use [infra](references/infra.md) to update `.loom/state.md` with feature progress
+3. Use [infra](references/infra.md) to update `.loom/context.md`
+4. Output a feature summary (see exec-feature)
+5. **Stop and wait** — do not start the next feature automatically
+
+If all features are done:
+1. Update `.loom/state.md`: stage = build ✅
+2. Tell the user all features are complete
