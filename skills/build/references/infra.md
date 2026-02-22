@@ -66,10 +66,43 @@ Affected files: [comma-separated list]
 ---
 ```
 
+## mark-blocked
+
+Mark a feature as blocked when the user chooses to stop and resolve manually.
+
+```
+feature: [feature file path, e.g. .loom/features/03-auth.md]
+reason: [one-line description of what is blocking]
+task: [task name that is blocked, optional]
+```
+
+Update the feature file's frontmatter:
+- `status: blocked`
+- `block_reason: [reason]`
+- `blocked_task: [task name]` (if provided)
+
+Also call `update-state` to set `pause_reason` to the same reason.
+Also call `log-decision` with `Decision: Feature blocked` and the reason.
+
+## read-decisions
+
+Read `.loom/decisions.log` and return a condensed summary of past decisions relevant to the current stage.
+
+```
+stage: build
+```
+
+Filter entries where `Stage: build` or earlier stages. For each entry extract:
+- Date, Stage, Feature (if present), Decision, Reason
+
+Return as a compact bullet list. If the file does not exist or is empty, return nothing (do not error).
+
+Use this at the start of `/build` to avoid re-asking questions already resolved in prior sessions.
+
 ## update-context
 
 Regenerate `.loom/context.md` after each feature is done. Extract the minimum useful context for the next stage:
 
 | Next stage   | What to include |
 |--------------|-----------------|
-| build        | Done features list + pending features list + last completed feature's Done block |
+| build        | Done features list + pending features list (include `blocked` ones with their `block_reason`) + last completed feature's Done block |

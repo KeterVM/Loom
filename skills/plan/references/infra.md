@@ -63,6 +63,21 @@ Affected files: [comma-separated list]
 ---
 ```
 
+## read-decisions
+
+Read `.loom/decisions.log` and return entries relevant to specified stages.
+
+```
+stages: [comma-separated list, e.g. "architecture"]
+```
+
+For each matching entry, return:
+- Date, Stage, Decision, Reason
+
+Return as a compact bullet list. If the file does not exist or is empty, return nothing (do not error).
+
+Use this when determining feature scope boundaries and dependency ordering.
+
 ## update-context
 
 Regenerate `.loom/context.md` at stage transitions. Extract the minimum useful context for the next stage:

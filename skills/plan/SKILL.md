@@ -17,7 +17,9 @@ description: "loom plan stage skill. Triggered when the user invokes /plan. Read
 3. Check that `.loom/state.md` shows `architecture ✅`
    - Not shown → stop and tell the user to complete and confirm `/architecture` first
 
-4. Check if `.skills/stage/plan.md` exists in the project
+4. Use [infra](references/infra.md) `read-decisions` (filter: `architecture`) to load key stack and scoping decisions — use these when determining feature boundaries and dependency ordering
+
+5. Check if `.skills/stage/plan.md` exists in the project
    - Found → use project-level file to override this orchestration logic
 
 ## Execution

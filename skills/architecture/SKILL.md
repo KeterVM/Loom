@@ -14,7 +14,9 @@ description: "loom architecture stage skill. Triggered when the user invokes /ar
 2. Check that `.loom/design/system.md` exists
    - Not found → stop and tell the user the design stage must be completed first
 
-3. Check if `.skills/stage/architecture.md` exists in the project
+3. Use [infra](references/infra.md) `read-decisions` (filter: `ideation`, `design`) to load a summary of prior decisions — surface these before risk analysis so no already-resolved trade-off is re-opened
+
+4. Check if `.skills/stage/architecture.md` exists in the project
    - Found → use project-level file to override this orchestration logic
 
 ## Execution

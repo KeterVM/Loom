@@ -61,7 +61,7 @@ Content: the absolute path to the loom library, with no trailing newline.
 ## Info
 - project: [target project directory name]
 - current_stage: not started
-- stage_progress: 0/6 stages complete
+- stage_progress: 0/6 stages complete (review available at any time)
 
 ## Current Tasks
 (none)
@@ -110,6 +110,7 @@ ln -sf [loom-library-path]/skills/architecture  [SKILLS_DIR]/architecture
 ln -sf [loom-library-path]/skills/plan          [SKILLS_DIR]/plan
 ln -sf [loom-library-path]/skills/build         [SKILLS_DIR]/build
 ln -sf [loom-library-path]/skills/feature       [SKILLS_DIR]/feature
+ln -sf [loom-library-path]/skills/review        [SKILLS_DIR]/review
 ```
 
 Use `-sf` so the symlink is replaced if it already exists (e.g. from a previous install or path change).
@@ -146,7 +147,7 @@ This project uses loom. Skill definitions live in a separate library directory.
 
 ## How to run a loom stage
 
-When the user invokes a loom command (`/ideation`, `/design`, `/architecture`, `/plan`, `/build`, `/feature:spec`):
+When the user invokes a loom command (`/ideation`, `/design`, `/architecture`, `/plan`, `/build`, `/feature:spec`, `/review`):
 
 1. Read `.loom/loom-path` to get the absolute path to the loom library
 2. Load `[loom-library-path]/skills/[stage]/SKILL.md`
@@ -159,6 +160,7 @@ Command-to-file mapping:
 - `/plan`          → `skills/plan/SKILL.md`
 - `/build`         → `skills/build/SKILL.md`
 - `/feature:spec`  → `skills/feature/SKILL.md`
+- `/review`        → `skills/review/SKILL.md`
 
 ## State
 
@@ -196,6 +198,7 @@ loom library   : [absolute path]
   [✓/✗]  plan            → [SKILLS_DIR]/plan
   [✓/✗]  build           → [SKILLS_DIR]/build
   [✓/✗]  feature         → [SKILLS_DIR]/feature
+  [✓/✗]  review          → [SKILLS_DIR]/review
 
 ── Step 4: agent instruction file ─────────────────
   [✓/✗]  CLAUDE.md    [appended / updated / created / FAILED: reason]
