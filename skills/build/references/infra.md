@@ -15,14 +15,12 @@ Always create parent directories if they don't exist.
 
 ## update-state
 
-Update `.loom/state.md` after each feature is completed.
+Update `.loom/state.md` after each feature completes or when pausing.
 
 Fields to update:
-- `current_stage` — "build"
-- `stage_progress` — e.g. "3/7 features done"
-- `pause_reason` — empty if not paused
-- `pending_decisions` — list of open questions for the user
-- `last_interventions` — append latest user instruction with timestamp and affected files
+- `current_stage` — "build" or "build ✅" when all features are done
+- `pause_reason` — empty if not paused; fill in when stopping for user input
+- `pending_decisions` — list of open questions for the user; clear when resolved
 
 State file format:
 
@@ -32,38 +30,12 @@ State file format:
 ## Info
 - project: [name]
 - current_stage: build
-- stage_progress: [N]/[total] features done
-
-## Current Tasks
-- [x] 01-foundation
-- [x] 02-auth
-- [ ] 03-user-profile
-- [ ] ...
 
 ## Pause Reason
 [empty if none]
 
 ## Pending Decisions
 - [question for user]
-
-## Recent Interventions
-- [YYYY-MM-DD] You said: [instruction]
-  Modified: [file list]
-```
-
-## log-decision
-
-Append an entry to `.loom/decisions.log` when a decision is made or a user intervenes.
-
-Entry format:
-
-```
-[YYYY-MM-DD HH:MM] Stage: build
-Feature: [feature-slug]
-Decision: [what was decided]
-Reason: [user instruction or checkpoint resolution]
-Affected files: [comma-separated list]
----
 ```
 
 ## mark-blocked
@@ -82,27 +54,3 @@ Update the feature file's frontmatter:
 - `blocked_task: [task name]` (if provided)
 
 Also call `update-state` to set `pause_reason` to the same reason.
-Also call `log-decision` with `Decision: Feature blocked` and the reason.
-
-## read-decisions
-
-Read `.loom/decisions.log` and return a condensed summary of past decisions relevant to the current stage.
-
-```
-stage: build
-```
-
-Filter entries where `Stage: build` or earlier stages. For each entry extract:
-- Date, Stage, Feature (if present), Decision, Reason
-
-Return as a compact bullet list. If the file does not exist or is empty, return nothing (do not error).
-
-Use this at the start of `/build` to avoid re-asking questions already resolved in prior sessions.
-
-## update-context
-
-Regenerate `.loom/context.md` after each feature is done. Extract the minimum useful context for the next stage:
-
-| Next stage   | What to include |
-|--------------|-----------------|
-| build        | Done features list + pending features list (include `blocked` ones with their `block_reason`) + last completed feature's Done block |

@@ -15,47 +15,25 @@ Always create parent directories if they don't exist.
 
 ## update-state
 
-Append the review summary to `.loom/state.md` under `Recent Interventions`.
+Append the review summary to `.loom/state.md`.
 
 Fields to update:
-- `last_interventions` — append entry: `[YYYY-MM-DD] /review completed: [one-line summary]`
-- `pending_decisions` — append any P1 action items the user has not yet resolved
+- `current_stage` — keep as-is (review does not change the current stage)
+- `pause_reason` — set if review finds a P1 issue that must be resolved before continuing
+- `pending_decisions` — append P1 action items the user has not yet resolved
 
-State file format: same as other stages (see plan/references/infra.md).
+State file format:
 
-## log-decision
+```markdown
+# Project State
 
-Append an entry to `.loom/decisions.log` for each recommended action the user confirms acting on.
+## Info
+- project: [name]
+- current_stage: [unchanged]
 
-Entry format:
+## Pause Reason
+[empty if none, or P1 issue from review]
 
+## Pending Decisions
+- [P1 action item from review]
 ```
-[YYYY-MM-DD HH:MM] Stage: review
-Decision: [action chosen]
-Reason: [which review finding prompted it]
-Affected files: [comma-separated list, or "TBD"]
----
-```
-
-## read-decisions
-
-Read `.loom/decisions.log` and return all entries. Filter by stage if needed.
-
-```
-stage: [optional — filter to specific stage, e.g. "build"]
-```
-
-Return entries as a compact bullet list:
-- `[date] [stage] [decision]`
-
-If the file does not exist or is empty, return nothing.
-
-## update-context
-
-Append the review summary to `.loom/context.md` so subsequent `/build` invocations are aware of known issues.
-
-| Content to add |
-|----------------|
-| Latest review date + build progress snapshot |
-| P1 action items not yet resolved |
-| Any contradictions that affect pending features |

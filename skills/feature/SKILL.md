@@ -29,14 +29,7 @@ The user invokes `/feature:spec <name>` where `<name>` is the feature name (e.g.
 - Slugify the name: lowercase, spaces → hyphens
 - File path: `.loom/features/[NN]-[slug].md`
 
-**Step 2: Read prior decisions**
-
-Use [infra in the build stage](../build/references/infra.md) `read-decisions` to load a summary of past decisions from all stages. Use this to:
-- Suggest relevant dependencies based on prior architecture decisions
-- Pre-fill the Changes section with modules referenced in recent build decisions
-- Avoid proposing tasks that contradict a confirmed decision
-
-**Step 3: Ask for spec details** (if not provided in the invocation)
+**Step 2: Ask for spec details** (if not provided in the invocation)
 
 Ask the user:
 1. **What does this feature deliver?** (one paragraph — the "What" section)
@@ -45,7 +38,7 @@ Ask the user:
 
 If the user has provided enough context in their message, draft the spec and ask for confirmation instead of asking each question separately.
 
-**Step 4: Generate task breakdown**
+**Step 3: Generate task breakdown**
 
 Based on the What and Changes, draft 3–7 tasks with acceptance conditions. Present them to the user:
 
@@ -61,7 +54,7 @@ Draft tasks for [feature name]:
 Confirm or edit these tasks before I create the file.
 ```
 
-**Step 5: Write the feature file**
+**Step 4: Write the feature file**
 
 After user confirmation, write `.loom/features/[NN]-[slug].md`:
 
@@ -90,7 +83,7 @@ priority: [NN]
 [Leave blank — /build fills this in upon completion]
 ```
 
-**Step 6: Confirm**
+**Step 5: Confirm**
 
 ```
 Created: .loom/features/[NN]-[slug].md
@@ -100,4 +93,4 @@ Run /build to execute this feature.
 
 ## No infra calls needed
 
-This skill writes the feature file directly (inline above). No update-state or update-context needed — `/build` will handle those when it executes the feature.
+This skill writes the feature file directly (inline above). No update-state needed — `/build` will handle that when it executes the feature.

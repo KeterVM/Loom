@@ -11,7 +11,6 @@ Analyse the current project state across all loom artefacts and produce a struct
 - Required: `.loom/features/*.md` — all feature files (status, Done blocks, deviations)
 - Required: `.loom/architecture/architecture.md` — original architecture spec
 - Required: `.loom/state.md` — current stage, blocked reasons, pending decisions
-- Optional: `.loom/decisions.log` — past decisions for pattern detection
 - Optional: `.loom/design/system.md` — original design system for UI drift checks
 
 ## Execution

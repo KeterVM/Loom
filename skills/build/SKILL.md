@@ -21,9 +21,7 @@ description: "loom build stage skill. Triggered when the user invokes /build. Fi
    - If yes, surface them before proceeding: list each blocked feature and its `block_reason`
    - The user may resolve them or choose to skip them in exec-feature
 
-5. Use [infra](references/infra.md) `read-decisions` to load a summary of past decisions — use this to avoid re-asking resolved questions during this session
-
-6. Check if `.skills/stage/build.md` exists in the project
+5. Check if `.skills/stage/build.md` exists in the project
    - Found → use project-level file to override this orchestration logic
 
 ## Execution
@@ -55,10 +53,9 @@ When option 3 is chosen: use [infra](references/infra.md) `mark-blocked` to set 
 When the current feature is done:
 
 1. Use [infra](references/infra.md) to update the feature file: status = done, fill Done block
-2. Use [infra](references/infra.md) to update `.loom/state.md` with feature progress
-3. Use [infra](references/infra.md) to update `.loom/context.md`
-4. Output a feature summary (see exec-feature)
-5. **Stop and wait** — do not start the next feature automatically
+2. Use [infra](references/infra.md) to update `.loom/state.md`
+3. Output a feature summary (see exec-feature)
+4. **Stop and wait** — do not start the next feature automatically
 
 If all features are done:
 1. Update `.loom/state.md`: stage = build ✅

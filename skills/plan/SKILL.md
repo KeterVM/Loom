@@ -17,9 +17,7 @@ description: "loom plan stage skill. Triggered when the user invokes /plan. Read
 3. Check that `.loom/state.md` shows `architecture ✅`
    - Not shown → stop and tell the user to complete and confirm `/architecture` first
 
-4. Use [infra](references/infra.md) `read-decisions` (filter: `architecture`) to load key stack and scoping decisions — use these when determining feature boundaries and dependency ordering
-
-5. Check if `.skills/stage/plan.md` exists in the project
+4. Check if `.skills/stage/plan.md` exists in the project
    - Found → use project-level file to override this orchestration logic
 
 ## Execution
@@ -47,6 +45,5 @@ Pause and write to the "pending decisions" field in `.loom/state.md` when:
 When all steps are done and user has confirmed the feature breakdown:
 
 1. Use [infra](references/infra.md) to update `.loom/state.md`: stage = plan ✅, next = build
-2. Use [infra](references/infra.md) to update `.loom/context.md` for the build stage
-3. Output a stage summary: N features generated, dependency graph, suggested build order
-4. **Wait for explicit user confirmation before proceeding to `/build`**
+2. Output a stage summary: N features generated, dependency graph, suggested build order
+3. **Wait for explicit user confirmation before proceeding to `/build`**

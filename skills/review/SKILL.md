@@ -39,8 +39,6 @@ Pause and write to the "pending decisions" field in `.loom/state.md` when:
 
 When gen-review is done:
 
-1. Use [infra](references/infra.md) to update `.loom/state.md`: append review summary to `Recent Interventions`
-2. Use [infra](references/infra.md) to `log-decision` for each recommended action the user confirms
-3. Use [infra](references/infra.md) to update `.loom/context.md` with the review summary
-4. **Do not change any feature statuses** — the user decides what to act on
-5. Output the review report and wait for the user to decide next step (continue `/build`, fix debt, or run `/feature:spec`)
+1. Use [infra](references/infra.md) to update `.loom/state.md` if any P1 issues require user action
+2. **Do not change any feature statuses** — the user decides what to act on
+3. Output the review report and wait for the user to decide next step (continue `/build`, fix debt, or run `/feature:spec`)

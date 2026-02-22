@@ -8,11 +8,10 @@ Read this file and execute the steps below to install loom into a target project
 
 ## What you are doing
 
-loom is a workflow system for product development. It lives in a separate library directory. Installing it means:
-1. Writing a few state files into the target project's `.loom/` directory
-2. Writing a `CLAUDE.md` routing table into the target project so future Claude Code sessions know how to run loom stages
-
-No files are copied from the loom library. The target project references the library by absolute path.
+loom is a workflow system for product development. Installing it means:
+1. Writing a single state file into the target project's `.loom/` directory
+2. Symlinking skill directories into the target project's agent skills directory
+3. Writing a routing table into the target project so future agent sessions know how to run loom stages
 
 ---
 
@@ -41,19 +40,9 @@ If either check fails, stop and report the problem. Do not proceed.
 
 ---
 
-## Step 2: Create `.loom/` structure in the target project
+## Step 2: Create `.loom/state.md` in the target project
 
-Write the following three files. Create the `.loom/` directory if it does not exist. **Always write all three files, even if they already exist — overwrite them.**
-
-### `.loom/loom-path`
-
-Content: the absolute path to the loom library, with no trailing newline.
-
-```
-[absolute path to loom library]
-```
-
-### `.loom/state.md`
+Create the `.loom/` directory if it does not exist. Write `.loom/state.md`. **Always overwrite if it already exists.**
 
 ```markdown
 # Project State
@@ -61,34 +50,17 @@ Content: the absolute path to the loom library, with no trailing newline.
 ## Info
 - project: [target project directory name]
 - current_stage: not started
-- stage_progress: 0/6 stages complete (review available at any time)
-
-## Current Tasks
-(none)
 
 ## Pause Reason
 (none)
 
 ## Pending Decisions
 (none)
-
-## Recent Interventions
-- [today's date] loom installed
-```
-
-### `.loom/context.md`
-
-```markdown
-# Project Context
-
-(populated at first stage transition)
 ```
 
 ---
 
 ## Step 3: Symlink loom skills into the target project
-
-Skills are symlinked into the target project root, scoped to this project only.
 
 Determine `SKILLS_DIR` based on which agent is running this install:
 
@@ -134,33 +106,30 @@ Decision rules:
 - If both exist, apply the above rule to both files
 - If neither exists, create `CLAUDE.md` with the content below
 
-**Do NOT skip this step because a loom section already exists. Always update it to ensure it reflects the current loom library path.**
-
-Content to write:
+**Do NOT skip this step because a loom section already exists. Always update it.**
 
 Content to write:
 
 ```markdown
 # loom
 
-This project uses loom. Skill definitions live in a separate library directory.
+This project uses loom. Skills are symlinked into [SKILLS_DIR].
 
 ## How to run a loom stage
 
 When the user invokes a loom command (`/ideation`, `/design`, `/architecture`, `/plan`, `/build`, `/feature:spec`, `/review`):
 
-1. Read `.loom/loom-path` to get the absolute path to the loom library
-2. Load `[loom-library-path]/skills/[stage]/SKILL.md`
-3. Follow the instructions in that file exactly
+1. Load `[SKILLS_DIR]/[stage]/SKILL.md`
+2. Follow the instructions in that file exactly
 
 Command-to-file mapping:
-- `/ideation`      → `skills/ideation/SKILL.md`
-- `/design`        → `skills/design/SKILL.md`
-- `/architecture`  → `skills/architecture/SKILL.md`
-- `/plan`          → `skills/plan/SKILL.md`
-- `/build`         → `skills/build/SKILL.md`
-- `/feature:spec`  → `skills/feature/SKILL.md`
-- `/review`        → `skills/review/SKILL.md`
+- `/ideation`      → `[SKILLS_DIR]/ideation/SKILL.md`
+- `/design`        → `[SKILLS_DIR]/design/SKILL.md`
+- `/architecture`  → `[SKILLS_DIR]/architecture/SKILL.md`
+- `/plan`          → `[SKILLS_DIR]/plan/SKILL.md`
+- `/build`         → `[SKILLS_DIR]/build/SKILL.md`
+- `/feature:spec`  → `[SKILLS_DIR]/feature/SKILL.md`
+- `/review`        → `[SKILLS_DIR]/review/SKILL.md`
 
 ## State
 
@@ -168,8 +137,10 @@ Stage progress is tracked in `.loom/state.md`. All stage skills read and write t
 
 ## Overrides
 
-To override a stage skill for this project only, create `.skills/stage/[stage-name].md`. The stage skill will load your local file instead of the library version.
+To override a stage skill for this project only, create `.skills/stage/[stage-name].md`. The stage skill will load your local file instead of the symlinked version.
 ```
+
+Replace `[SKILLS_DIR]` with the actual path (e.g. `.claude/skills`) when writing this content.
 
 ---
 
@@ -185,9 +156,7 @@ Target project : [absolute path]
 loom library   : [absolute path]
 
 ── Step 2: .loom/ files ────────────────────────────
-  [✓/✗]  .loom/loom-path       [created / overwritten / FAILED: reason]
   [✓/✗]  .loom/state.md        [created / overwritten / FAILED: reason]
-  [✓/✗]  .loom/context.md      [created / overwritten / FAILED: reason]
 
 ── Step 3: skill symlinks ──────────────────────────
   Skills dir(s): [path(s) detected]
