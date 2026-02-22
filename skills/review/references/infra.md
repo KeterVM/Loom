@@ -1,6 +1,6 @@
 # infra
 # Layer: 3 Infrastructure
-# Called by: plan stage skills
+# Called by: review stage skills
 
 ## write-file
 
@@ -15,12 +15,12 @@ Always create parent directories if they don't exist.
 
 ## update-state
 
-Update `.loom/state.md` after the plan stage completes.
+Append the review summary to `.loom/state.md`.
 
 Fields to update:
-- `current_stage` — "plan ✅"
-- `pause_reason` — empty if not paused; fill in when stopping for user input
-- `pending_decisions` — list of open questions for the user; clear when resolved
+- `current_stage` — keep as-is (review does not change the current stage)
+- `pause_reason` — set if review finds a P1 issue that must be resolved before continuing
+- `pending_decisions` — append P1 action items the user has not yet resolved
 
 State file format:
 
@@ -29,11 +29,11 @@ State file format:
 
 ## Info
 - project: [name]
-- current_stage: plan ✅
+- current_stage: [unchanged]
 
 ## Pause Reason
-[empty if none]
+[empty if none, or P1 issue from review]
 
 ## Pending Decisions
-- [question for user]
+- [P1 action item from review]
 ```

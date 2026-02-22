@@ -15,14 +15,12 @@ Always create parent directories if they don't exist.
 
 ## update-state
 
-Update `.loom/state.md` after each feature is completed.
+Update `.loom/state.md` after each feature completes or when pausing.
 
 Fields to update:
-- `current_stage` — "build"
-- `stage_progress` — e.g. "3/7 features done"
-- `pause_reason` — empty if not paused
-- `pending_decisions` — list of open questions for the user
-- `last_interventions` — append latest user instruction with timestamp and affected files
+- `current_stage` — "build" or "build ✅" when all features are done
+- `pause_reason` — empty if not paused; fill in when stopping for user input
+- `pending_decisions` — list of open questions for the user; clear when resolved
 
 State file format:
 
@@ -32,44 +30,27 @@ State file format:
 ## Info
 - project: [name]
 - current_stage: build
-- stage_progress: [N]/[total] features done
-
-## Current Tasks
-- [x] 01-foundation
-- [x] 02-auth
-- [ ] 03-user-profile
-- [ ] ...
 
 ## Pause Reason
 [empty if none]
 
 ## Pending Decisions
 - [question for user]
-
-## Recent Interventions
-- [YYYY-MM-DD] You said: [instruction]
-  Modified: [file list]
 ```
 
-## log-decision
+## mark-blocked
 
-Append an entry to `.loom/decisions.log` when a decision is made or a user intervenes.
-
-Entry format:
+Mark a feature as blocked when the user chooses to stop and resolve manually.
 
 ```
-[YYYY-MM-DD HH:MM] Stage: build
-Feature: [feature-slug]
-Decision: [what was decided]
-Reason: [user instruction or checkpoint resolution]
-Affected files: [comma-separated list]
----
+feature: [feature file path, e.g. .loom/features/03-auth.md]
+reason: [one-line description of what is blocking]
+task: [task name that is blocked, optional]
 ```
 
-## update-context
+Update the feature file's frontmatter:
+- `status: blocked`
+- `block_reason: [reason]`
+- `blocked_task: [task name]` (if provided)
 
-Regenerate `.loom/context.md` after each feature is done. Extract the minimum useful context for the next stage:
-
-| Next stage   | What to include |
-|--------------|-----------------|
-| build        | Done features list + pending features list + last completed feature's Done block |
+Also call `update-state` to set `pause_reason` to the same reason.

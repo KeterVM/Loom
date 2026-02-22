@@ -45,6 +45,5 @@ Pause and write to the "pending decisions" field in `.loom/state.md` when:
 When all steps are done and user has confirmed the feature breakdown:
 
 1. Use [infra](references/infra.md) to update `.loom/state.md`: stage = plan ✅, next = build
-2. Use [infra](references/infra.md) to update `.loom/context.md` for the build stage
-3. Output a stage summary: N features generated, dependency graph, suggested build order
-4. **Wait for explicit user confirmation before proceeding to `/build`**
+2. Output a stage summary: N features generated, dependency graph, suggested build order
+3. **Wait for explicit user confirmation before proceeding to `/build`**

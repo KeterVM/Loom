@@ -1,6 +1,6 @@
 ---
 name: architecture
-description: "loom architecture stage skill. Triggered when the user invokes /architecture. Drives the full workflow from a completed design system to a confirmed technical architecture. Execution chain: analyze-risks → gen-architecture. Output is .loom/architecture/architecture.md. User must confirm stack and architecture before proceeding to /dev."
+description: "loom architecture stage skill. Triggered when the user invokes /architecture. Drives the full workflow from a completed design system to a confirmed technical architecture. Execution chain: analyze-risks → gen-architecture. Output is .loom/architecture/architecture.md. User must confirm stack and architecture before proceeding to /plan."
 ---
 
 # Architecture Stage
@@ -39,11 +39,11 @@ Pause and write to the "pending decisions" field in `.loom/state.md` when:
 
 - Risk analysis surfaces a high-severity risk — confirm mitigation strategy before proceeding
 - Architecture requires a stack decision (e.g. which database, which framework) — confirm choice
+
 ## Completion
 
 When all steps are done:
 
 1. Use [infra](references/infra.md) to update `.loom/state.md`: stage = architecture ✅, next = plan
-2. Use [infra](references/infra.md) to update `.loom/context.md` for the plan stage
-3. Output a stage summary: stack decisions, module count, key risks mitigated
-4. **Wait for explicit user confirmation before proceeding to `/plan`**
+2. Output a stage summary: stack decisions, module count, key risks mitigated
+3. **Wait for explicit user confirmation before proceeding to `/plan`**
