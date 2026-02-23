@@ -118,60 +118,7 @@ If any `ln` command fails, stop and report the error. Do not proceed.
 
 ---
 
-## Step 4: Write loom routing into the target project's agent instruction file
-
-Determine which agent instruction file the target project uses:
-
-1. Check for `CLAUDE.md` — used by Claude Code
-2. Check for `AGENTS.md` — used by Codex and other agents
-3. Check for both, or neither
-
-Decision rules:
-- If one exists: check whether it already contains a `# loom` section
-  - If the section exists: **replace it entirely** with the content below
-  - If the section does not exist: append the content below
-- If both exist, apply the above rule to both files
-- If neither exists, create `CLAUDE.md` with the content below
-
-**Do NOT skip this step because a loom section already exists. Always update it to ensure it reflects the current loom library path.**
-
-Content to write:
-
-Content to write:
-
-```markdown
-# loom
-
-This project uses loom. Skill definitions live in a separate library directory.
-
-## How to run a loom stage
-
-When the user invokes a loom command (`/ideation`, `/design`, `/architecture`, `/plan`, `/build`, `/feature:spec`):
-
-1. Read `.loom/loom-path` to get the absolute path to the loom library
-2. Load `[loom-library-path]/skills/[stage]/SKILL.md`
-3. Follow the instructions in that file exactly
-
-Command-to-file mapping:
-- `/ideation`      → `skills/ideation/SKILL.md`
-- `/design`        → `skills/design/SKILL.md`
-- `/architecture`  → `skills/architecture/SKILL.md`
-- `/plan`          → `skills/plan/SKILL.md`
-- `/build`         → `skills/build/SKILL.md`
-- `/feature:spec`  → `skills/feature/SKILL.md`
-
-## State
-
-Stage progress is tracked in `.loom/state.md`. All stage skills read and write this file automatically. Do not edit it manually.
-
-## Overrides
-
-To override a stage skill for this project only, create `.skills/stage/[stage-name].md`. The stage skill will load your local file instead of the library version.
-```
-
----
-
-## Step 5: Confirm
+## Step 4: Confirm
 
 Report to the user using the following template. Fill in each field exactly — do not omit any row. Use `✓` for success, `✗` for failure, and include a short note if anything failed or was skipped.
 
@@ -196,10 +143,6 @@ loom library   : [absolute path]
   [✓/✗]  plan            → [SKILLS_DIR]/plan
   [✓/✗]  build           → [SKILLS_DIR]/build
   [✓/✗]  feature         → [SKILLS_DIR]/feature
-
-── Step 4: agent instruction file ─────────────────
-  [✓/✗]  CLAUDE.md    [appended / updated / created / FAILED: reason]
-  [✓/✗]  AGENTS.md    [appended / updated / not present — skipped]
 
 ═══════════════════════════════════════════════════
 Status: [ALL OK / X FAILURE(S) — see above]
