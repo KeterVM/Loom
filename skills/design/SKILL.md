@@ -47,6 +47,5 @@ Pause and write to the "pending decisions" field in `.loom/state.md` when:
 
 When all steps are done:
 
-1. Use [infra](references/infra.md) to update `.loom/state.md`: stage = design ✅, next = dev
-2. Use [infra](references/infra.md) to update `.loom/context.md` for the dev stage
-3. Output a stage summary and wait for user to confirm "proceed to dev"
+1. Use [infra](references/infra.md) to update `.loom/state.md`: stage = design ✅, next = architecture
+2. Output a stage summary and wait for user to confirm "proceed to /architecture"

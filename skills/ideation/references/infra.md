@@ -19,10 +19,9 @@ Update `.loom/state.md` after each task or stage transition.
 
 Fields to update:
 - `current_stage` — current stage name
-- `stage_progress` — e.g. "3/5 tasks complete"
-- `pause_reason` — empty if not paused
-- `pending_decisions` — list of open questions for the user
-- `last_interventions` — append latest user instruction with timestamp and affected files
+- `ideation_step` — current step number within this stage (increment after each step)
+- `pause_reason` — empty if not paused; fill in when stopping for user input
+- `pending_decisions` — list of open questions for the user; clear when resolved
 
 State file format:
 
@@ -31,44 +30,12 @@ State file format:
 
 ## Info
 - project: [name]
-- current_stage: [stage]
-- stage_progress: [x/y tasks complete]
-
-## Current Tasks
-- [x] task one
-- [ ] task two
+- current_stage: ideation
+- ideation_step: [N]
 
 ## Pause Reason
 [empty if none]
 
 ## Pending Decisions
 - [question for user]
-
-## Recent Interventions
-- [YYYY-MM-DD] You said: [instruction]
-  Modified: [file list]
 ```
-
-## log-decision
-
-Append an entry to `.loom/decisions.log` when a decision is made or a user intervenes.
-
-Entry format:
-
-```
-[YYYY-MM-DD HH:MM] Stage: [stage]
-Decision: [what was decided]
-Reason: [user instruction or checkpoint resolution]
-Affected files: [comma-separated list]
----
-```
-
-## update-context
-
-Regenerate `.loom/context.md` at stage transitions. Extract the minimum useful context for the next stage:
-
-| Next stage   | What to include |
-|--------------|-----------------|
-| design       | Full `.loom/ideation/requirements.md` + brief summary |
-| architecture | `.loom/design/system.md` + key design decisions |
-| plan         | `.loom/architecture/architecture.md` + module list + key stack decisions |

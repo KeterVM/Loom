@@ -21,13 +21,22 @@ Scan all `.loom/features/*.md` files:
 - Read frontmatter: `status`, `depends-on`, `priority`
 - Eligible = status is `pending` AND all features in `depends-on` have `status: done`
 - If multiple eligible, pick the lowest `priority` number (lowest = highest priority)
+- If a feature has `status: blocked`, report it first and ask:
+  ```
+  Feature [NN]-[name] is blocked: [block_reason from frontmatter]
+  Options:
+  1. Retry — attempt this feature again
+  2. Skip — mark it as skipped and pick the next eligible feature
+  3. Abandon — I'll resolve this manually before running /build again
+  ```
+  Wait for user choice before continuing.
 - If no eligible feature found:
   - Check if any pending features have unsatisfied dependencies → report which features are blocked and why
   - Check if all features are done → report completion
 
 **2. Mark feature as in-progress**
 
-Update the selected feature file's frontmatter: `status: in-progress`.
+Update the selected feature file's frontmatter: `status: in-progress`. Remove `block_reason` if present.
 
 Report:
 
@@ -63,8 +72,10 @@ Test runner failed: [error]
 Options:
 1. Fix environment and retry
 2. Skip test execution — verify by code inspection instead
-3. Pause — I'll fix this manually
+3. Block this feature — I'll fix this manually
 ```
+
+If the user chooses option 3 (Block), use [infra](infra.md) `mark-blocked` to set `status: blocked` and record the reason, then stop.
 
 **4. After all tasks complete, fill in the Done block**
 
@@ -119,8 +130,10 @@ Problem: [what's wrong]
 Options:
 1. Skip this task and continue
 2. Redefine the task: [suggested new definition]
-3. Pause — I'll resolve this manually
+3. Block this feature — I'll resolve this manually
 ```
+
+If the user chooses option 3 (Block), use [infra](infra.md) `mark-blocked` to set `status: blocked` with the block reason, update `.loom/state.md` pause_reason, then stop.
 
 ## Output (persistent)
 

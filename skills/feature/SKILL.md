@@ -93,4 +93,4 @@ Run /build to execute this feature.
 
 ## No infra calls needed
 
-This skill writes the feature file directly (inline above). No update-state or update-context needed — `/build` will handle those when it executes the feature.
+This skill writes the feature file directly (inline above). No update-state needed — `/build` will handle that when it executes the feature.

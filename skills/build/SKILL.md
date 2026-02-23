@@ -17,7 +17,11 @@ description: "loom build stage skill. Triggered when the user invokes /build. Fi
 3. Check that `.loom/state.md` shows `plan ✅`
    - Not shown → stop and tell the user to complete and confirm `/plan` first
 
-4. Check if `.skills/stage/build.md` exists in the project
+4. Check if any features have `status: blocked`
+   - If yes, surface them before proceeding: list each blocked feature and its `block_reason`
+   - The user may resolve them or choose to skip them in exec-feature
+
+5. Check if `.skills/stage/build.md` exists in the project
    - Found → use project-level file to override this orchestration logic
 
 ## Execution
@@ -39,18 +43,19 @@ Problem: [what's wrong]
 Options:
 1. Skip this task and continue
 2. Redefine the task: [suggested new definition]
-3. Pause — I'll resolve this manually
+3. Block this feature — I'll resolve this manually
 ```
+
+When option 3 is chosen: use [infra](references/infra.md) `mark-blocked` to set `status: blocked` on the feature with the reason, then stop. The next `/build` invocation will surface blocked features first.
 
 ## Completion
 
 When the current feature is done:
 
 1. Use [infra](references/infra.md) to update the feature file: status = done, fill Done block
-2. Use [infra](references/infra.md) to update `.loom/state.md` with feature progress
-3. Use [infra](references/infra.md) to update `.loom/context.md`
-4. Output a feature summary (see exec-feature)
-5. **Stop and wait** — do not start the next feature automatically
+2. Use [infra](references/infra.md) to update `.loom/state.md`
+3. Output a feature summary (see exec-feature)
+4. **Stop and wait** — do not start the next feature automatically
 
 If all features are done:
 1. Update `.loom/state.md`: stage = build ✅
